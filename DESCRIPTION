@@ -1,0 +1,24 @@
+Package: roadR
+Type: Package
+Title: R-Tools for Road Network Analysis
+Version: 0.1.0
+Authors@R: c(
+  person("Fritz", "Jooste", email = "fritz@lonrix.com", role = c("aut", "cre")))
+Maintainer: Fritz Jooste <fritz@lonrix.com>
+Description: This package provides a set of tools that can be used for pre-and-
+  post-processing tasks related to Road Network Analysis.
+License:  MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    plyr,
+    dplyr,
+    stringr,
+    magrittr,
+    ggplot2,
+    viridis
+RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
