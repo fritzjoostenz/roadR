@@ -18,7 +18,7 @@
 #' @return TRUE or FALSE
 #' @export
 #'
-tt_get_boolean <- function(value) {
+rr_get_boolean <- function(value) {
   suppressWarnings({
 
     if (is.null(value)) return(FALSE)
@@ -71,7 +71,7 @@ tt_get_boolean <- function(value) {
 #' does not exist, an informative error is thrown
 #' @export
 #'
-tt_get_lookup_value <- function(lookups, lookup_set_key, key_value,
+rr_get_lookup_value <- function(lookups, lookup_set_key, key_value,
                                 key_column = "key", lookup_column = "value") {
 
   if(!lookup_set_key %in% names(lookups)) {
