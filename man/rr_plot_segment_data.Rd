@@ -9,6 +9,7 @@ rr_plot_segment_data(
   sub_segs,
   x_min = NULL,
   x_max = NULL,
+  x_inc = NULL,
   y_min = 0,
   y_max = 12,
   best_seg_y = 10.5
@@ -23,6 +24,9 @@ should be the output from method \code{rr_get_subsections_v1}}
 \item{x_min}{minimum for x-axis scale}
 
 \item{x_max}{maximum for x-axis scale}
+
+\item{x_inc}{increment for x-axis scale. If NULL is passed, a suitable increment
+will be automatically picked}
 
 \item{y_min}{minimim for y-axis scale. Default is zero, assuming a scale from
 1 to 12}

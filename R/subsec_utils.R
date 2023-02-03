@@ -172,7 +172,13 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     # Fill any gaps between identified optimal sub-segments
     sub_segs <- rr_subsecs_fill_gaps(sub_segs, tl_from, tl_to)
 
+    # Correct for situations where there are overlaps between the optimal
+    # identified sub-segments (happens sometimes, rare edge case)
     sub_segs <- .correct_for_overlaps(sub_segs)
+
+    if (id == "203075") browser()
+    sub_segs <- rr_subsecs_trim_shorts(sub_segs, min_length, "score")
+    sub_segs$length <- sub_segs$loc_to - sub_segs$loc_from  #update lengths
 
     tl_length <- tl_info$length
     subsecs_length <- sum(sub_segs$length)

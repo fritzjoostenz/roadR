@@ -9,6 +9,8 @@
 #' should be the output from method \code{rr_get_subsections_v1}
 #' @param x_min minimum for x-axis scale
 #' @param x_max maximum for x-axis scale
+#' @param x_inc increment for x-axis scale. If NULL is passed, a suitable increment
+#' will be automatically picked
 #' @param y_min minimim for y-axis scale. Default is zero, assuming a scale from
 #' 1 to 12
 #' @param y_max maximim for y-axis scale. Default is 12, assuming a scale from
@@ -24,7 +26,8 @@
 #' @importFrom plyr round_any
 #' @importFrom dplyr .data
 rr_plot_segment_data <- function(data, sub_segs, x_min = NULL, x_max = NULL,
-                                 y_min = 0, y_max = 12, best_seg_y = 10.5) {
+                                 x_inc = NULL, y_min = 0, y_max = 12,
+                                 best_seg_y = 10.5) {
 
   if (is.null(x_min)) {
     x_min <- 0
@@ -37,7 +40,13 @@ rr_plot_segment_data <- function(data, sub_segs, x_min = NULL, x_max = NULL,
   max_fitness <- max(sub_segs$score)
   sub_segs$fitness_score <- best_seg_y * sub_segs$score/max_fitness
 
-  inc <- round_any((x_max - x_min)/20,10)
+  if (is.null(x_inc)) {
+    inc <- round_any((x_max - x_min)/15,10)
+  }
+  else {
+    inc <- x_inc
+  }
+
   gg <- ggplot(data) +
     ggplot2::geom_segment(aes(x = loc_from, xend = loc_to, y = .data$y_plot,
                               yend = .data$y_plot,
