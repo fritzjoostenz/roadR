@@ -280,6 +280,8 @@ rr_get_subseg_defects_breakdown <- function(sub_seg, deficit_data,
     return("none")
   }
 
+  points_in_seg$deficit_length <- points_in_seg$loc_to - points_in_seg$loc_from
+
   points_in_seg$score <- points_in_seg$deficit * points_in_seg$deficit_length
   points_in_seg$score <- points_in_seg$score * benefit_scaler
 
