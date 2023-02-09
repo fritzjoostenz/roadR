@@ -112,9 +112,10 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
   n_sections <- length(tl_ids)
   index <- 1
   prog_index <- 1
+  n_updated <- 0  # keeps track of segments on which final scores are updated
   for (id in tl_ids) {
 
-    #if (id == "204570") browser()
+    #if (id == "3399") browser()
 
     # Get treatment length info so we can add it to the sub-sections generated
     tl_info <- treat_lengths %>% dplyr::filter(.data$tl_id == id)
@@ -125,6 +126,8 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     tl_from <- treat_lengths[treat_lengths$tl_id == id, ]$loc_from
     tl_to <- treat_lengths[treat_lengths$tl_id == id, ]$loc_to
     tl_length <- tl_to - tl_from
+
+    #if (tl_from == 1034 && tl_to == 2778) browser()
 
     if (tl_length <= min_length) {
 
@@ -140,7 +143,8 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
 
       sub_segs <- rr_get_subsections_v1(tl_data, tl_from, tl_to, min_length,
                                         max_length, score_threshold,
-                                        benefit_scaler, show_progress = FALSE)
+                                        benefit_scaler, method = method,
+                                        show_progress = FALSE)
 
       if (is.null(sub_segs)) {
 
@@ -176,7 +180,7 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     # identified sub-segments (happens sometimes, rare edge case)
     sub_segs <- .correct_for_overlaps(sub_segs)
 
-    if (id == "203075") browser()
+    # Trim short segments by intelligently combining with others
     sub_segs <- rr_subsecs_trim_shorts(sub_segs, min_length, "score")
     sub_segs$length <- sub_segs$loc_to - sub_segs$loc_from  #update lengths
 
@@ -189,6 +193,21 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
 
     n_segs <- nrow(sub_segs)
     i_to <- (i_from + n_segs - 1)
+
+    # Re-calculate the deficit scores on the finalized segment lengths
+    if (nrow(sub_segs) > 0) {
+      for (i in 1:nrow(sub_segs)) {
+        seg_from <- sub_segs[[i, "loc_from"]]
+        seg_to <- sub_segs[[i, "loc_to"]]
+        score1 <- sub_segs[[i, "score"]]
+        score <- rr_get_deficit_score(tl_data, seg_from, seg_to, benefit_scaler,
+                                      method)
+        sub_segs[[i, "score"]] <- score
+        if (score1 != score) {
+          n_updated <- n_updated + 1
+        }
+      }
+    }
 
     result[i_from:i_to, ] <- sub_segs
     i_from <- i_to + 1
@@ -220,6 +239,11 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
                  total_subsec_length, ")",
     " does not match total length of treatment lengths (", total_tl_length,")"))
   }
+
+  n <- nrow(result)
+  print(paste0("Finished! ", n_updated, " out of ", n, " segments have scores",
+                " updated due to refinements in lengths"))
+
 
   return(result)
 
@@ -593,10 +617,11 @@ rr_subsecs_fill_gaps <- function(sub_segs, sec_start, sec_end) {
   # sub-segments
 
   n <- 1000
-  new_rows <- data.table::as.data.table(matrix(NA_real_, nrow = n,
-                                               ncol = ncol(sub_segs)))
-  names(new_rows) <- names(sub_segs)
+  # new_rows <- data.table::as.data.table(matrix(NA_real_, nrow = n,
+  #                                              ncol = ncol(sub_segs)))
 
+  new_rows <- data.frame(matrix(NA_real_, nrow = n, ncol = ncol(sub_segs)))
+  names(new_rows) <- names(sub_segs)
   index <- 0
   # Iterate through the rows of the input data frame
   for (i in 2:nrow(sub_segs)) {

@@ -251,15 +251,15 @@ rr_get_deficit_score <- function(df, loc_from, loc_to,
   x2 = looper$x[2]
   score <- looper$score
 
-  loc_from <- max(0, floor(x1))
+  loc_from1 <- max(0, floor(x1))
   length <- floor(x2)
-  loc_to <- min(ch_max, loc_from + length)
+  loc_to1 <- min(ch_max, loc_from1 + length)
 
-  rows_in_seg <- df[df$loc_from >= loc_from & df$loc_to <= loc_to, ]
+  rows_in_seg <- df[df$loc_from >= {{loc_from1}} & df$loc_to <= {{loc_to1}}, ]
   loc_froms <- unique(rows_in_seg$loc_from)
   df$deficit <- ifelse(df$loc_from %in% loc_froms, 0, df$deficit)
 
-  result <- list(loc_from = loc_from, loc_to = loc_to,
+  result <- list(loc_from = loc_from1, loc_to = loc_to1,
                  score = score, data = df)
   return(result)
 }
