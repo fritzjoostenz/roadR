@@ -33,4 +33,9 @@ value column is updating using a length based weighted sum. For example, if
 the short segment being joined has a length of 50 and a value of 10, and
 the selected neighbour has a length of 200 and a value of 12, the joined
 segment will get a value of \code{(50/250)*10 + (200/250)*12 = 11.6}
+
+Note that if the set of segments being scanned has only one segment, then no
+change will be made to the segments, even if the one segment has a length
+shorter than the minimum allowed (this is because there are no longer
+neighbours to join the short segment to).
 }

@@ -7,7 +7,7 @@ Authors@R: c(
 Maintainer: Fritz Jooste <fritz@lonrix.com>
 Description: This package provides a set of tools that can be used for pre-and-
   post-processing tasks related to Road Network Analysis.
-License:  MIT + file LICENSE
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
@@ -18,7 +18,7 @@ Imports:
     ggplot2,
     viridis,
     data.table
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0)
