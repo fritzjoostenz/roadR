@@ -43,10 +43,13 @@ rr_Clean_deficit_set <- function(deficit_set, min_obs_length = 1,
 
   df <- deficit_set
   req_cols <- c("section_id", "loc_from", "loc_to", "deficit", "data_code")
-  .check_required_cols(req_cols, df, "Deficit Data")
+  ok <- .check_required_cols(req_cols, df, "Deficit Data")
+  if (ok == FALSE) {
+    stop("Some required columns are missing. Check messages in console.")
+  }
 
   #Calculate the middle and length of each observation
-  df$tt_middle <- (df$loc_from + df$loc_to)/2
+  df$tt_middle <- df$loc_from + df$loc_to
   df$tt_length <- df$loc_to - df$loc_from
 
   # Adjust end location for observations that are too short by adding the minimum
