@@ -101,7 +101,7 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     tl_from = rep(NA_real_, n),
     tl_to = rep(NA_real_, n),
     tl_length = rep(NA_real_, n),
-    lane = rep(NA_real_, n)
+    lane = rep(NA_character_, n)
   )
 
   #Convert to data table for faster filtering
@@ -174,6 +174,7 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     sub_segs$tl_to <- tl_info$loc_to
     sub_segs$tl_length <- tl_info$length
     sub_segs$lane <- tl_info$lane
+
 
     # Fill any gaps between identified optimal sub-segments
     sub_segs <- rr_subsecs_fill_gaps(sub_segs, tl_from, tl_to)
