@@ -51,7 +51,7 @@ rr_get_subsections_v1 <- function(df, section_min, section_max,
   req_cols <- c("section_id", "loc_from", "loc_to", "deficit", "data_code")
   .check_required_cols(req_cols, df, "Deficit Data")
 
-  sec_length <- (section_max - section_min)
+  sec_length <- (section_max - section_min) # test
 
   # We need to handle cases where the deficit data starts before or after the
   # section min and max. If we do not do this, then defects that start well
