@@ -217,3 +217,9 @@ rr_get_lookup_value <- function(lookups, lookup_set_key, key_value,
 
 }
 
+.check_col_in_df <- function(col_names, col_to_check) {
+  if (! col_to_check %in% col_names) {
+    stop(paste0("Column '", col_to_check, "' is not in the data frame" ))
+  }
+  return(TRUE)
+}
