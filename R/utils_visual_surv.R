@@ -159,6 +159,15 @@ rr_spread_visual_distress <- function(segments, defect_pct_column, defect_label,
                            lane_column, loc_from_col, loc_to_col,
                            n_splits = 10, min_split_length = 20) {
 
+
+  ok <- .check_required_cols(c(defect_pct_column, tl_id_col, section_id_column,
+                         area_name_column, lane_column, loc_from_col,
+                         loc_to_col), segments, "visual survey data frame")
+  if (ok == FALSE) stop("Not all specified columns found. Check warnings.")
+
+  segments <- segments[segments[[defect_pct_column]] > 0 &
+                      is.na(segments[[defect_pct_column]]) == FALSE, ]
+
   n_segs <- nrow(segments)
   if (n_segs == 0) return(segments)
 
@@ -171,6 +180,7 @@ rr_spread_visual_distress <- function(segments, defect_pct_column, defect_label,
   defect_tos <- rep(NA, n)
   defects <- rep(NA, n)
 
+
   i_defect <- 1
   for (i_seg in 1:n_segs) {
 
@@ -181,6 +191,8 @@ rr_spread_visual_distress <- function(segments, defect_pct_column, defect_label,
     lane_code <- segments[[i_seg, lane_column]]
 
     defect_pct <- as.numeric(segments[[i_seg, defect_pct_column]])
+    # if (is.null(defect_pct)) browser()
+    # if (is.na(defect_pct)) browser()
 
     if (defect_pct > 0) {
 
