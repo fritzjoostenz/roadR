@@ -81,13 +81,12 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
                 "data_code")
   .check_required_cols(req_cols, deficit_data, "Deficit Data")
 
+  # Ensure deficit data is a data frame (required for filtering)
+  deficit_data <- as.data.frame(deficit_data)
+
   treat_lengths$length <- treat_lengths$loc_to - treat_lengths$loc_from
 
   n <- 10000
-  # result <- data.table::as.data.table(matrix(NA_real_, nrow = n, ncol = 11))
-  # names(result) <- c("loc_from", "loc_to", "length", "score", "index",
-  #                    "tl_id", "section_id", "tl_areaname",
-  #                    "tl_from", "tl_to", "tl_length")
 
   result <- data.table::data.table(
     loc_from = rep(NA_real_, n),
@@ -103,9 +102,6 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
     tl_length = rep(NA_real_, n),
     lane = rep(NA_character_, n)
   )
-
-  #Convert to data table for faster filtering
-  deficit_data <- as.data.table(deficit_data)
 
   tl_ids <- treat_lengths$tl_id
   i_from <- 1
@@ -253,92 +249,6 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
 }
 
 
-#' Gets a Breakdown of Defects contributing to Deficit Score
-#'
-#' \code{rr_get_subseg_defects_breakdown} analyses the deficits within a
-#' particular segment based on the 'data_code' for each deficit, and returns
-#' a code that that represents the top contributing defects
-#'
-#' @param sub_seg row from sub-sectioning output data frame. This data
-#' frame should contain all distresses or data relating to capacity deficits,
-#' and should contain the following columns:
-#' \enumerate{
-#'   \item section_id: containing the unique ID for sections on which deficit
-#'   data is found
-#'   \item loc_from: start location for each deficit observation
-#'   \item loc_to: end location for each deficit observation
-#'   \item deficit: normalised deficit score for each observation. It is
-#'   recommended that a scale of 0 to 10 be used, with higher values indicating
-#'   greater deficit (distress or capacity deficit)
-#'   \item data_code: short code identifying each data type in the set
-#' }
-#' @param deficit_data data frame with deficit data for the network. This data
-#' frame should contain all distresses or data relating to capacity deficits,
-#' and should contain the following columns:
-#' \enumerate{
-#'   \item section_id: containing the unique ID for sections on which deficit
-#'   data is found
-#'   \item loc_from: start location for each deficit observation
-#'   \item loc_to: end location for each deficit observation
-#'   \item deficit: normalised deficit score for each observation. It is
-#'   recommended that a scale of 0 to 10 be used, with higher values indicating
-#'   greater deficit (distress or capacity deficit)
-#'   \item data_code: short code identifying each data type in the set
-#' }
-#' @param benefit_scaler scaling factor for deficits. This factor should be
-#' manually calibrated using the plotting function
-#' @export
-#'
-#' @importFrom stats complete.cases
-#' @importFrom data.table as.data.table
-#' @importFrom dplyr group_by
-#' @importFrom dplyr arrange
-rr_get_subseg_defects_breakdown <- function(sub_seg, deficit_data,
-                                            benefit_scaler) {
-
-  section_id <- as.numeric(sub_seg[["section_id"]])
-  loc_from <- as.numeric(sub_seg[["loc_from"]])
-  loc_to <- as.numeric(sub_seg[["loc_to"]])
-  points_in_seg <- deficit_data[deficit_data$section_id == section_id &
-                                  deficit_data$loc_from >= loc_from &
-                                  deficit_data$loc_to <= loc_to, ]
-
-  if (nrow(points_in_seg) == 0) {
-    return("none")
-  }
-
-  points_in_seg$deficit_length <- points_in_seg$loc_to - points_in_seg$loc_from
-
-  points_in_seg$score <- points_in_seg$deficit * points_in_seg$deficit_length
-  points_in_seg$score <- points_in_seg$score * benefit_scaler
-
-  breakdown <- points_in_seg %>% group_by(.data$data_code) %>% dplyr::summarise(
-    sum_score = sum(.data$score, na.rm = TRUE)
-  )
-
-  tot_score <- sum(breakdown$sum_score)
-
-  breakdown$sum_score_pct <- round(100 * breakdown$sum_score/tot_score, 1)
-
-  breakdown <- breakdown %>% arrange(-.data$sum_score_pct)
-
-  breakdown$cum_pct <- cumsum(breakdown$sum_score_pct)
-
-  n <- nrow(breakdown)
-  code <- ""
-  for (i in 1:n) {
-
-    code <- paste0(code, breakdown[i, ]$data_code, " = ",
-                   breakdown[i, ]$sum_score_pct, " | ")
-
-    if (n > 3 & breakdown[i, ]$cum_pct > 80) {
-      break
-    }
-  }
-
-  return(code)
-
-}
 
 #' Gets optimal subsections on a set of Sections
 #'

@@ -267,7 +267,7 @@ rr_spread_visual_distress <- function(segments, defect_pct_column, defect_label,
                        lane = lanes,
                        loc_from = defect_froms,
                        loc_to = defect_tos,
-                       defect = defects)
+                       data_code = defects)
 
   result <- result[complete.cases(result), ]
 
