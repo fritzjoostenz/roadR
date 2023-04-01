@@ -88,7 +88,8 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
 
   p <- ggplot2::ggplot(df, aes(x = .data$xx, y=.data$yy)) +
     geom_boxplot(outlier.alpha = 0.5, outlier.size = 0.5,
-                 fill = "lightsteelblue") +
+                 fill = "lightsteelblue", color = "black", lwd = 0.2,
+                 fatten=5) +
     stat_summary(fun.data = counts, geom = "text",
                  family = font_name, size = obs_size) +
     scale_y_continuous(limits = y_limits, breaks = increms) +
