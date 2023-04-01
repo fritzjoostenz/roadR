@@ -39,6 +39,12 @@
 #' @param x_lab_rot_angle Rotation angle for X-axis labels. Default is zero (no
 #' rotation). You can experiment with negative values, such as -35 for longer
 #' labels
+#' @param y_grid_colour colour for Y-axis grid
+#' @param y_grid_size Line size for Y-axis grid. Experiment with values in the
+#' range 0.15 to 0.25. Default is 0.2.
+#' @param y_grid_linetype ggplot line type code. Default is 'dashed'. See web
+#' for valid values which are: 'blank', 'solid', 'dashed', 'dotted', 'dotdash',
+#' 'longdash', 'twodash'
 #' @export
 #'
 #' @importFrom stats complete.cases
@@ -60,7 +66,9 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
                         obs_size = 5,  obs_offset = 1,
                         font_name = "serif",
                         x_font_size = 12, y_font_size = 12,
-                        x_lab_rot_angle = 0) {
+                        x_lab_rot_angle = 0,
+                        y_grid_colour = "lightgray",
+                        y_grid_size = 0.2, y_grid_linetype = "dashed") {
 
   y_limits <- c(y_min, y_max)
   increms <- seq(y_min, y_max, y_inc)
@@ -94,8 +102,9 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
       axis.text.x=element_text(size = x_font_size,
                                angle = x_lab_rot_angle, hjust = 0),
       axis.text.y=element_text(size = y_font_size),
-      panel.grid.major.y = element_line(color = "lightgray",
-                                        size = 0.15,linetype = 2),
+      panel.grid.major.y = element_line(color = y_grid_colour,
+                                        size = y_grid_size,
+                                        linetype = y_grid_linetype),
       panel.grid.minor.y = element_blank(),
       panel.grid.major.x = element_blank())
 
@@ -103,4 +112,5 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
     p <- p + geom_jitter(alpha = 0.05, width = 0.15, colour = "black")
   }
   return(p)
+
 }

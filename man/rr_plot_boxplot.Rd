@@ -22,7 +22,10 @@ rr_plot_boxplot(
   font_name = "serif",
   x_font_size = 12,
   y_font_size = 12,
-  x_lab_rot_angle = 0
+  x_lab_rot_angle = 0,
+  y_grid_colour = "lightgray",
+  y_grid_size = 0.2,
+  y_grid_linetype = "dashed"
 )
 }
 \arguments{
@@ -63,6 +66,15 @@ fonts handled by ggplot such as 'sans'}
 \item{x_lab_rot_angle}{Rotation angle for X-axis labels. Default is zero (no
 rotation). You can experiment with negative values, such as -35 for longer
 labels}
+
+\item{y_grid_colour}{colour for Y-axis grid}
+
+\item{y_grid_size}{Line size for Y-axis grid. Experiment with values in the
+range 0.15 to 0.25. Default is 0.2.}
+
+\item{y_grid_linetype}{ggplot line type code. Default is 'dashed'. See web
+for valid values which are: 'blank', 'solid', 'dashed', 'dotted', 'dotdash',
+'longdash', 'twodash'}
 }
 \description{
 Note: This method DOES provide a full set of sub-segments representing the
