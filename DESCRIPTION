@@ -1,7 +1,7 @@
 Package: roadR
 Type: Package
 Title: R-Tools for Road Network Analysis
-Version: 0.1.0
+Version: 0.1.2
 Authors@R: c(
   person("Fritz", "Jooste", email = "fritz@lonrix.com", role = c("aut", "cre")))
 Maintainer: Fritz Jooste <fritz@lonrix.com>
