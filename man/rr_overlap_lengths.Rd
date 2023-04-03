@@ -18,7 +18,7 @@ against the first segment}
 first segment}
 }
 \value{
-voctor containing lengths of the overlap with first section
+vector containing lengths of the overlap with first section
 }
 \description{
 \code{rr_overlap_lengths} is a vectorised version for getting the overlaps

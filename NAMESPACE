@@ -2,6 +2,8 @@
 
 export(rr_Clean_deficit_set)
 export(rr_add_subseg_failure_class_sums)
+export(rr_classify_defects_absol)
+export(rr_classify_defects_relative)
 export(rr_get_boolean)
 export(rr_get_deficit_score)
 export(rr_get_distress_pct)
