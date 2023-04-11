@@ -36,6 +36,9 @@
 #' fonts handled by ggplot such as 'sans'
 #' @param x_font_size Size of font for X-axis label and ticks
 #' @param y_font_size Size of font for Y-axis label and ticks
+#' @param x_lab_halign Horizontal alignment for X-axis tick labels. Use 0 for
+#' left-aligned, 0.5 for centred and 1 for right aligned. Generally, use 0.5 but
+#' when rotating labels, you can experiment with left and right aligned.
 #' @param x_lab_rot_angle Rotation angle for X-axis labels. Default is zero (no
 #' rotation). You can experiment with negative values, such as -35 for longer
 #' labels
@@ -66,6 +69,7 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
                         obs_size = 5,  obs_offset = 1,
                         font_name = "serif",
                         x_font_size = 12, y_font_size = 12,
+                        x_lab_halign = 0.5,
                         x_lab_rot_angle = 0,
                         y_grid_colour = "lightgray",
                         y_grid_size = 0.2, y_grid_linetype = "dashed") {
@@ -100,9 +104,9 @@ rr_plot_boxplot <- function(data, x_col, y_col, y_min, y_max, y_inc,
       text = element_text(family = font_name),
       axis.title.x = element_text(size = x_font_size),
       axis.title.y = element_text(size = y_font_size),
-      axis.text.x=element_text(size = x_font_size,
-                               angle = x_lab_rot_angle, hjust = 0),
       axis.text.y=element_text(size = y_font_size),
+      axis.text.x=element_text(size = x_font_size,
+                               angle = x_lab_rot_angle, hjust = x_lab_halign),
       panel.grid.major.y = element_line(color = y_grid_colour,
                                         size = y_grid_size,
                                         linetype = y_grid_linetype),

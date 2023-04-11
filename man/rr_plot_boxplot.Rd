@@ -22,6 +22,7 @@ rr_plot_boxplot(
   font_name = "serif",
   x_font_size = 12,
   y_font_size = 12,
+  x_lab_halign = 0.5,
   x_lab_rot_angle = 0,
   y_grid_colour = "lightgray",
   y_grid_size = 0.2,
@@ -62,6 +63,10 @@ fonts handled by ggplot such as 'sans'}
 \item{x_font_size}{Size of font for X-axis label and ticks}
 
 \item{y_font_size}{Size of font for Y-axis label and ticks}
+
+\item{x_lab_halign}{Horizontal alignment for X-axis tick labels. Use 0 for
+left-aligned, 0.5 for centred and 1 for right aligned. Generally, use 0.5 but
+when rotating labels, you can experiment with left and right aligned.}
 
 \item{x_lab_rot_angle}{Rotation angle for X-axis labels. Default is zero (no
 rotation). You can experiment with negative values, such as -35 for longer
