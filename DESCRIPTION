@@ -17,7 +17,8 @@ Imports:
     magrittr,
     ggplot2,
     viridis,
-    data.table
+    data.table,
+    ranger
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 

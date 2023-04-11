@@ -1,6 +1,6 @@
 
 
-' Gets optimal subsections on a set of Treatment Lengths
+#' Gets optimal subsections on a set of Treatment Lengths
 #'
 #' \code{rr_get_subsecs_on_sections} Generates a set of optimal sub-sections
 #' for each section within a larger set. For example, you can use this function

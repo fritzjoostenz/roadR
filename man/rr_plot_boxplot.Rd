@@ -2,10 +2,7 @@
 % Please edit documentation in R/plot_utils.R
 \name{rr_plot_boxplot}
 \alias{rr_plot_boxplot}
-\title{\code{rr_get_subsecs_on_sections} Generates a set of optimal sub-sections
-for each section within a larger set. For example, you can use this function
-to generate sub-sections for an entire network when the set of sections
-provided as the first parameter represent all sections on your network.}
+\title{Gets optimal subsections on a set of Treatment Lengths}
 \usage{
 rr_plot_boxplot(
   data,
@@ -82,10 +79,15 @@ for valid values which are: 'blank', 'solid', 'dashed', 'dotted', 'dotdash',
 'longdash', 'twodash'}
 }
 \description{
-Note: This method DOES provide a full set of sub-segments representing the
-entire network defined by the set of treatment lengths you provide.
+\code{rr_get_subsecs_on_sections} Generates a set of optimal sub-sections
+for each section within a larger set. For example, you can use this function
+to generate sub-sections for an entire network when the set of sections
+provided as the first parameter represent all sections on your network.
 }
 \details{
+Note: This method DOES provide a full set of sub-segments representing the
+entire network defined by the set of treatment lengths you provide.
+
 Also note that this method, unlike \code{\link{rr_get_subsecs_on_sections}}
 IS lane specific. If your data and/or treatment lengths are not
 lane-specific, then use lane code 'all' in your deficit data or treatment
