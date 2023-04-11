@@ -35,7 +35,7 @@
 #' @importFrom ggplot2 theme_light
 #' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 geom_segment
-get_variable_importance <- function(model_data, target_col, predictors,
+rr_get_variable_importance <- function(model_data, target_col, predictors,
                                     predictor_labels = NULL,
                                     classification = TRUE,
                                     probability = TRUE) {
