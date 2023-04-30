@@ -314,6 +314,9 @@ rr_get_subsecs_on_sections <- function(sections, deficit_data,
                                        ends_join_limit = 50,
                                        max_sub_segments = 100000) {
 
+  print("Starting dynamic sub-sectioning")
+  print(paste0("Maximum number of subsegments allowed is set to ", max_sub_segments))
+
   req_cols <- c("section_id", "loc_from", "loc_to", "section_name")
   .check_required_cols(req_cols, sections, "Sections Data")
 
