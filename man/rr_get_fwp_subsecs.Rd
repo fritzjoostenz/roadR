@@ -13,7 +13,8 @@ rr_get_fwp_subsecs(
   benefit_scaler,
   method = "npv",
   max_subsecs = 25,
-  ends_join_limit = 50
+  ends_join_limit = 50,
+  max_sub_segments = 1e+05
 )
 }
 \arguments{
@@ -65,6 +66,9 @@ section (default is 25)}
 start or end of a section should be joined to the start or end. Default
 value is 50m. Pass in a value of -1 if you do NOT want to join sub-sections
 to the starts of ends.}
+
+\item{max_sub_segments}{maximum number of sub-sections allowed (used to size
+arrays). Default is 100,000}
 }
 \description{
 \code{rr_get_subsecs_on_sections} Generates a set of optimal sub-sections

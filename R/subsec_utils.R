@@ -63,6 +63,8 @@
 #' start or end of a section should be joined to the start or end. Default
 #' value is 50m. Pass in a value of -1 if you do NOT want to join sub-sections
 #' to the starts of ends.
+#' @param max_sub_segments maximum number of sub-sections allowed (used to size
+#' arrays). Default is 100,000
 #' @export
 #'
 #' @importFrom stats complete.cases
@@ -71,7 +73,12 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
                                min_length, max_length,
                                score_threshold, benefit_scaler,
                                method = "npv", max_subsecs = 25,
-                               ends_join_limit = 50) {
+                               ends_join_limit = 50,
+                               max_sub_segments = 100000) {
+
+  print("Starting dynamic sub-sectioning")
+  print(paste0("Maximum number of subsegments allowed is set to ",
+               max_sub_segments))
 
   req_cols <- c("tl_id", "area_name", "section_id", "loc_from", "loc_to",
                 "lane")
@@ -86,7 +93,7 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
 
   treat_lengths$length <- treat_lengths$loc_to - treat_lengths$loc_from
 
-  n <- 10000
+  n <- max_sub_segments
 
   result <- data.table::data.table(
     loc_from = rep(NA_real_, n),
@@ -223,6 +230,9 @@ rr_get_fwp_subsecs <- function(treat_lengths, deficit_data,
   }
 
   result <- result[complete.cases(result), ]
+  if (nrow(result) == max_sub_segments) {
+    warning(paste0("Warning! Maximum number of sub-segments has been reached!"))
+  }
 
   # Check that the sub-sections cover the entire length of the set of
   # treatment lengths on which sub-sectioning is based. This is to double-check
@@ -315,7 +325,8 @@ rr_get_subsecs_on_sections <- function(sections, deficit_data,
                                        max_sub_segments = 100000) {
 
   print("Starting dynamic sub-sectioning")
-  print(paste0("Maximum number of subsegments allowed is set to ", max_sub_segments))
+  print(paste0("Maximum number of subsegments allowed is set to ",
+               max_sub_segments))
 
   req_cols <- c("section_id", "loc_from", "loc_to", "section_name")
   .check_required_cols(req_cols, sections, "Sections Data")
