@@ -83,3 +83,55 @@ test_that("Filter on Segment with minimum overlap", {
 
 
 })
+
+
+test_that("Filter on Segment with minimum overlap", {
+
+  df <- data.frame(section_id = c(836),
+                   loc_from = c(1250),
+                   loc_to = c(2309),
+                   lane = c("All"),
+                   values = c(1))
+
+
+  treat_len <- data.frame(tl_id = 1, section_id = 836, loc_from = 1250,
+                          loc_to = 2309, lane = "All")
+
+  row <- rr_get_seg_data_ovlp(treat_len, df, min_overlap = 0.5)
+
+  expect_equal(row[["values"]], 1)
+
+  treat_len <- data.frame(tl_id = 1, section_id = 836, loc_from = 1285,
+                          loc_to = 2309, lane = "All")
+
+  row <- rr_get_seg_data_ovlp(treat_len, df, min_overlap = 0.5)
+
+  expect_equal(row[["values"]], 1)
+
+
+})
+
+
+test_that("Vectorised Overlap", {
+
+  df <- data.frame(section_id = c(836, 836),
+                   loc_from = c(1250, 2309),
+                   loc_to = c(2309, 2907),
+                   lane = c("all", "all"),
+                   values = c(1, 2))
+
+  seg_from <- 1285
+  seg_to <- 2309
+  length <- seg_to - seg_from
+
+  browser()
+  overlaps <- rr_overlap_lengths(seg_from, seg_to, df[ , "loc_from"],
+                                 df[, "loc_to"])
+  max_overlap_row <- which.max(overlaps)
+  max_overlap <- overlaps[max_overlap_row]
+
+  max_overlap_perc <- max_overlap/length
+  expect_equal(max_overlap_perc, 1)
+
+
+})

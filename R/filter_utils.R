@@ -69,7 +69,7 @@ rr_get_tl_data <- function(treat_len, df) {
 }
 
 
-#' Gets all data for a specific treatment length that has a minimum overlap
+#' Gets the row with maximum overlap over a specified minimum overlap
 #'
 #' \code{rr_get_seg_data_ovlp} Filters data and returns only those rows where
 #' (a) the section Id matches the section ID of the specified treatment length;

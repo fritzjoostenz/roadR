@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_utils.R
 \name{rr_get_seg_data_ovlp}
 \alias{rr_get_seg_data_ovlp}
-\title{Gets all data for a specific treatment length that has a minimum overlap}
+\title{Gets the row with maximum overlap over a specified minimum overlap}
 \usage{
 rr_get_seg_data_ovlp(seg, df, min_overlap = 0.5)
 }
